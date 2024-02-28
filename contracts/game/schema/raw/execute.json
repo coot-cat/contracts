@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExecuteMsg",
+  "oneOf": [
+    {
+      "type": "string",
+      "enum": [
+        "withdraw"
+      ]
+    },
+    {
+      "type": "object",
+      "required": [
+        "mint"
+      ],
+      "properties": {
+        "mint": {
+          "$ref": "#/definitions/MintParams"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "checkin"
+      ],
+      "properties": {
+        "checkin": {
+          "$ref": "#/definitions/CheckinParams"
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "CheckinParams": {
+      "type": "object",
+      "required": [
+        "kind",
+        "msg_hash",
+        "msg_signature"
+      ],
+      "properties": {
+        "kind": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "msg_hash": {
+          "type": "string"
+        },
+        "msg_signature": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MintParams": {
+      "type": "object",
+      "required": [
+        "color",
+        "gender",
+        "name",
+        "variety"
+      ],
+      "properties": {
+        "color": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "gender": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        },
+        "name": {
+          "type": "string"
+        },
+        "variety": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

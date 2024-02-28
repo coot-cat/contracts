@@ -1,0 +1,27 @@
+[package]
+name = "game"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+library = []
+mt = ["library", "cw-multi-test"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cat = { version = "0.1.0", path = "../cat", features = ["library"] }
+cosmwasm-schema = "1.5.3"
+cosmwasm-std = "1.5.3"
+cw-multi-test = { version = "0.20.0", optional = true }
+cw-storage-plus = "1.2.0"
+cw2 = "1.1.2"
+cw721-base = { version = "0.18.0", features = ["library"] }
+schemars = "0.8.16"
+thiserror = "1.0.57"
+
+[dev-dependencies]
+cw-multi-test = "0.20.0"

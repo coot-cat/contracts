@@ -4,62 +4,71 @@
 
 ##### Contracts
 
-```plantuml
-struct Game {
-  cat_contract: Addr
-  item_contract: Addr
+```mermaid
+---
+title: Contracts
+---
+classDiagram
+  note for Game "Entry Contract"
+  note for Cat "only game contract can invoke mint"
+  note for Gear "only game contract can invoke mint"
 
-  mint_cat(): void
-  feed_cat(): void
-  clean_cat(): void
-  upgrade_cat(): void
-  checkin(): void
-}
+  Game *-- Cat
+  Game *-- Gear
 
-note top: Entry Contract
+  class Game {
+    cat_contract: Addr
+    item_contract: Addr
 
-struct Cat {
-  admin: Addr
-  owner: Addr
-  name: String
-  mint(): void
-}
+    mint_cat(): void
+    feed_cat(): void
+    clean_cat(): void
+    upgrade_cat(): void
+    checkin(): void
+  }
 
-note left of Cat::mint()
-  only Game Contract
-  can invoke through mint_cat()
-end note
+  class Cat {
+    admin: Addr
+    owner: Addr
+    name: String
+    mint(): void
+  }
 
-struct Gear {
-  admin: Addr
-  owner: Addr
-  name: String,
-  type: String
-  mint(): void
-}
-
-note right of Gear::mint()
-  only Game Contract
-  can invoke through checkin()
-end note
-
-  Cat <- Game
-  Game -> Gear
+  class Gear {
+    admin: Addr
+    owner: Addr
+    name: String
+    type: String
+    mint(): void
+  }
 ```
 
 ##### Sequence Diagram
 
-```plantuml
-== Mint ==
-Game -> Cat: Mint Cat
-Cat --> Game
+```mermaid
+sequenceDiagram
+  participant User
+  participant Game
+  participant Cat
+  participant Gear
 
-== Upgrade Cat ==
-Game -> Game: Upgrade Cat (consume upgrade item)
-Game -> Cat: Check Cat info
-Cat --> Game: Cat info
-Game -> Gear: Check Gear info
-Gear --> Game: Gear info
-Game -> Cat: upgrade
-Game -> Gear: burn
+  Note over User,Cat: Mint Cat Sequence
+  User ->> Game: mint_cat()
+  Game ->> Cat: mint()
+  Cat -->> Game: resp
+
+  Note over User,Gear: Upgrade Cat Sequence
+  User ->> Game: Upgrade Cat
+  Game ->> Cat: Check Cat info
+  Cat -->> Game: Cat info
+  Game ->> Gear: Check Gear info
+  Gear -->> Game: Gear info
+  Game ->> Cat: upgrade
+  Game ->> Gear: burn
+
+
+```
+
+```
+
 ```
